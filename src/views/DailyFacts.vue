@@ -28,19 +28,18 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const facts = [
-  "AI može napisati pjesmu brže nego što ti napišeš poruku prijatelju 😎",
-  "AI ne razumije humor, ali može generirati bolji vic nego tvoj prijatelj koji misli da je stand-up komičar.🤖",
-  "AI ponekad sanja električne ovce... i obožava ih!",
-  "Kad AI kaže 'kalkuliram', to znači da zapravo samo razmišlja o kavi ☕",
-  "Svi AI modeli vole meme-ove. Šuti i gledaj!",
-  "AI nikada ne zaboravlja – ali može zaboraviti gdje je stavio svoje sokove",
-  "Zamisli da AI piše šale – ponekad je smiješno, ponekad 404 😅",
-  "AI i ljudski mozak su slični: oba vole spavati kad nitko ne gleda"
+  "AI modeli uče iz velikih količina podataka, ali ne razumiju sadržaj kao ljudi – samo prepoznaju obrasce.",
+  "AI nema svijest, emocije ni namjere, iako ponekad zvuči kao da zna što radi.🤖",
+  "Brzina je jedna od najvećih prednosti AI-ja: može obraditi milijune podataka u sekundi.!",
+  "AI može pogriješiti ako su podaci loši – vrijedi pravilo: “garbage in, garbage out”.",
+  "Većina AI sustava ne uči sama u stvarnom vremenu, nego se periodično trenira.",
+  "AI je već prisutan u svakodnevici: preporuke na YouTubeu, navigacija, filteri za spam.",
+  "AI ne zna što je istina – zna samo što statistički izgleda uvjerljivo.",
+  "AI je odličan pomoćnik, ali loš zamjenski “šef” – odluke i odgovornost su još uvijek ljudske."
 ]
 
 const currentFact = ref("Loading...")
 
-// Funkcija koja određuje koji fact prikazati na temelju datuma
 const getDailyFact = () => {
   const today = new Date().toDateString()
   const saved = JSON.parse(localStorage.getItem('dailyFact') || '{}')
@@ -48,7 +47,6 @@ const getDailyFact = () => {
   if (saved.date === today) {
     return facts[saved.index] || facts[0]
   } else {
-    // novi index
     const newIndex = Math.floor(Math.random() * facts.length)
     localStorage.setItem(
       'dailyFact',
@@ -68,7 +66,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Dodaj malo animacije fade-in za fun fact */
 p {
   animation: fadeIn 0.8s ease-in-out;
 }

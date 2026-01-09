@@ -1,17 +1,15 @@
 <template>
   <div
     class="min-h-screen flex items-center justify-center relative overflow-hidden
-           bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50
+           bg-linear-to-br from-blue-50 via-purple-50 to-pink-50
            px-4 sm:px-6"
   >
-    <!-- Animated Background -->
     <div class="absolute top-0 left-0 w-96 h-96 bg-purple-300 rounded-full blur-3xl opacity-20"></div>
     <div class="absolute top-0 right-0 w-96 h-96 bg-blue-300 rounded-full blur-3xl opacity-20"></div>
     <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-300 rounded-full blur-3xl opacity-20"></div>
 
     <div class="w-full max-w-lg text-center space-y-6 relative z-10">
 
-      <!-- Logo -->
       <div>
         <div class="flex justify-center items-center mb-3">
           <h1 class="text-5xl sm:text-6xl font-bold text-blue-600 tracking-tight">
@@ -19,28 +17,21 @@
           </h1>
         </div>
 
-        <!-- Welcome -->
         <p class="text-gray-600 text-base sm:text-lg font-medium px-4">
           Dobrodošli u <span class="font-bold text-blue-600">NeuraMind</span> –
           Vaš vlastiti edukacijski AI svijet!
         </p>
       </div>
 
-      <!-- Neural Network -->
       <div class="flex justify-center py-2">
         <div class="relative w-72 h-56">
-
-          <!-- Lines -->
           <svg class="absolute inset-0 w-full h-full opacity-60">
-            <!-- left → middle -->
             <line x1="50" y1="60" x2="135" y2="20" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="50" y1="60" x2="135" y2="90" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="50" y1="60" x2="135" y2="160" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="50" y1="120" x2="135" y2="20" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="50" y1="120" x2="135" y2="90" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="50" y1="120" x2="135" y2="160" stroke="#cbd5e1" stroke-width="1.5"/>
-
-            <!-- middle → right -->
             <line x1="135" y1="20" x2="220" y2="60" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="135" y1="90" x2="220" y2="60" stroke="#cbd5e1" stroke-width="1.5"/>
             <line x1="135" y1="160" x2="220" y2="60" stroke="#cbd5e1" stroke-width="1.5"/>
@@ -49,7 +40,6 @@
             <line x1="135" y1="160" x2="220" y2="120" stroke="#cbd5e1" stroke-width="1.5"/>
           </svg>
 
-          <!-- Nodes -->
           <span class="node bg-yellow-400" style="top:60px; left:50px"></span>
           <span class="node bg-yellow-400" style="top:120px; left:50px"></span>
 
@@ -62,13 +52,12 @@
         </div>
       </div>
 
-      <!-- Daily AI Facts -->
       <div
         class="group p-5 rounded-2xl bg-white/40 backdrop-blur-lg border border-white/50
                shadow-xl hover:bg-white/60 transition cursor-pointer"
         @click="goToDailyFacts"
       >
-        <div class="flex justify-center gap-3 font-bold text-blue-600">
+        <div class="flex justify-center gap-3 font-bold text-blue-600 cursor-pointer">
           ⬅ DAILY AI FACTS ➡
         </div>
         <p class="text-xs text-gray-500 mt-1">
@@ -76,10 +65,9 @@
         </p>
       </div>
 
-      <!-- Login -->
       <button
         class="w-full py-4 rounded-2xl font-bold text-lg text-white
-               bg-gradient-to-r from-blue-500 to-blue-600
+               bg-linear-to-r from-blue-500 to-blue-600
                hover:from-blue-600 hover:to-blue-700
                shadow-xl transition cursor-pointer"
         @click="goToLogin"
@@ -87,7 +75,6 @@
         PRIJAVI SE
       </button>
 
-      <!-- Register -->
       <p class="text-sm text-gray-600">
         Nemate račun?
         <span
@@ -98,15 +85,14 @@
         </span>
       </p>
 
-      <!-- Admin -->
       <p class="text-xs text-gray-500">
         Prijavite se kao
-        <span
-          class="text-blue-600 font-bold cursor-pointer hover:underline"
+        <button
+          class="text-blue-600 font-bold cursor-pointer hover:underline bg-transparent border-0 p-0"
           @click="goToAdmin"
         >
           ADMINISTRATOR
-        </span>
+        </button>
       </p>
 
     </div>
@@ -118,9 +104,9 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const goToDailyFacts = () => router.push('/daily-facts')
-const goToLogin = () => router.push('/login')
-const goToRegister = () => router.push('/register')
-const goToAdmin = () => router.push('/admin')
+const goToLogin = () => router.push('/prijava-korisnik')
+const goToAdmin = () => router.push('/prijava-admin')
+const goToRegister = () => router.push('/registracija-korisnik')
 </script>
 
 <style scoped>
@@ -132,3 +118,4 @@ const goToAdmin = () => router.push('/admin')
   transform: translate(-50%, -50%);
 }
 </style>
+
