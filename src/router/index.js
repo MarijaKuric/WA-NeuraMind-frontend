@@ -9,6 +9,7 @@ import UnosLekcijaAdmin from '../views/UnosLekcijaAdmin.vue'
 import UnosKvizovaAdmin from '../views/UnosKvizovaAdmin.vue'
 import PregledLekcijaAdmin from '../views/PregledLekcijaAdmin.vue'
 import PregledKvizovaAdmin from '../views/PregledKvizovaAdmin.vue'
+import RegistrationSuccess from '@/views/RegistrationSuccess.vue'
 
 const routes = [
   {
@@ -61,6 +62,12 @@ const routes = [
     name: 'PregledKvizovaAdmin',
     component: () => import('@/views/PregledKvizovaAdmin.vue'),
   },
+  {
+    path: '/registration-success',
+    name: 'RegistrationSuccess',
+    component: RegistrationSuccess
+  },
+
 ]
 
 const router = createRouter({
