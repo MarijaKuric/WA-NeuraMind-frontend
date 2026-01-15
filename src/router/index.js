@@ -10,6 +10,11 @@ import UnosKvizovaAdmin from '../views/UnosKvizovaAdmin.vue'
 import PregledLekcijaAdmin from '../views/PregledLekcijaAdmin.vue'
 import PregledKvizovaAdmin from '../views/PregledKvizovaAdmin.vue'
 import RegistrationSuccess from '@/views/RegistrationSuccess.vue'
+import PrikazLekcija from '@/views/PrikazLekcija.vue'
+import AIChat from '@/views/AIChat.vue'
+import KvizoviKorisnik from '@/views/KvizoviKorisnik.vue'
+import StatistikaKorisnik from '@/views/StatistikaKorisnik.vue'
+import ZajednicaKorisnik from '@/views/ZajednicaKorisnik.vue'
 
 const routes = [
   {
@@ -65,7 +70,32 @@ const routes = [
   {
     path: '/registration-success',
     name: 'RegistrationSuccess',
-    component: RegistrationSuccess
+    component: RegistrationSuccess,
+  },
+  {
+    path: '/prikaz-lekcija',
+    name: 'PrikazLekcija',
+    component: PrikazLekcija,
+  },
+  {
+    path: '/ai-chat',
+    name: 'AIChat',
+    component: AIChat,
+  },
+  {
+    path: '/kvizovi-korisnik',
+    name: 'KvizoviKorisnik',
+    component: KvizoviKorisnik,
+  },
+  {
+    path: '/statistika-korisnik',
+    name: 'StatistikaKorisnik',
+    component: StatistikaKorisnik,
+  },
+  {
+    path: '/zajednica-korisnik',
+    name: 'ZajednicaKorisnik',
+    component: ZajednicaKorisnik,
   },
 
 ]
