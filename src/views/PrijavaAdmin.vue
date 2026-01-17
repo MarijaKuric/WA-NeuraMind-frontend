@@ -4,7 +4,6 @@
            bg-linear-to-br from-blue-50 via-purple-50 to-pink-50
            px-4 sm:px-6"
   >
-    <!-- Background -->
     <div class="absolute top-0 left-0 w-96 h-96 bg-purple-300 rounded-full blur-3xl opacity-20"></div>
     <div class="absolute top-0 right-0 w-96 h-96 bg-blue-300 rounded-full blur-3xl opacity-20"></div>
     <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-300 rounded-full blur-3xl opacity-20"></div>
