@@ -41,41 +41,29 @@
         >AI CHAT</button>
       </div>
 
-      <!-- SADRŽAJ -->
+      <!-- SADRŽAJ LEKCIJA -->
       <div class="flex-1">
-
-        <!-- LEKCIJA -->
-        <div class="bg-blue-50 rounded-xl p-6 shadow-md relative mb-10">
-
+        <div
+          v-for="lesson in lessons"
+          :key="lesson._id"
+          class="bg-blue-50 rounded-xl p-6 shadow-md relative mb-6"
+        >
           <h2 class="text-xl font-bold text-gray-800 mb-4">
-            1. Lekcija – Osnove umjetne inteligencije
+            {{ lesson.title }}
           </h2>
 
-          <div v-if="isOpen" class="text-gray-700 leading-relaxed">
-            <p class="mb-4">
-              Umjetna inteligencija (AI) je područje računalne znanosti koje se bavi
-              razvojem sustava sposobnih obavljati zadatke koji inače zahtijevaju ljudsku inteligenciju.
-            </p>
-            <p class="mb-4">
-              To uključuje učenje, zaključivanje, prepoznavanje obrazaca i donošenje odluka.
-            </p>
-
-            <div class="flex justify-end mt-6">
-              <button class="text-blue-600 font-bold hover:underline">
-                2. lekcija →
-              </button>
-            </div>
+          <div v-if="openedLesson === lesson._id" class="text-gray-700 leading-relaxed mb-6">
+            <p v-html="lesson.content"></p>
           </div>
 
           <!-- START / ZATVORI -->
           <button
-            @click="toggleLesson"
+            @click="toggleLesson(lesson._id)"
             class="absolute bottom-4 right-4 bg-pink-400 text-white px-5 py-2
                    rounded-full font-bold shadow-md hover:bg-blue-500 transition"
           >
-            {{ isOpen ? 'ZATVORI' : 'OTVORI' }}
+            {{ openedLesson === lesson._id ? 'ZATVORI' : 'OTVORI' }}
           </button>
-
         </div>
       </div>
 
@@ -87,9 +75,9 @@
         >
           <span class="bg-blue-400 text-white rounded p-1 mr-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor">
+                 viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
           </span>
           ODJAVA
@@ -101,13 +89,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
-const isOpen = ref(false)
-
-// Aktivni tab
+const lessons = ref([])
+const openedLesson = ref(null)
 const activeTab = ref('LEKCIJE')
 
 // CSS klase za gumbiće
@@ -115,8 +103,18 @@ const activeBtn = 'bg-blue-500 text-white px-5 py-2 rounded-full shadow-md font-
 const inactiveBtn = 'bg-pink-400 text-white px-5 py-2 rounded-full shadow-md font-bold hover:bg-blue-500 transition'
 
 // Toggle lekcija
-const toggleLesson = () => {
-  isOpen.value = !isOpen.value
+const toggleLesson = (id) => {
+  openedLesson.value = openedLesson.value === id ? null : id
+}
+
+// Dohvati lekcije iz backend-a
+const fetchLessons = async () => {
+  try {
+    const res = await axios.get('http://localhost:5000/api/lessons')
+    lessons.value = res.data.sort((a, b) => a.order - b.order) // sortirano po order
+  } catch (err) {
+    console.error('Greška pri dohvaćanju lekcija:', err)
+  }
 }
 
 // Navigacija
@@ -147,6 +145,9 @@ const goToAIChat = () => {
 
 // Logout
 const logout = () => router.push('/')
+
+// On mounted
+onMounted(fetchLessons)
 </script>
 
 <style scoped>
