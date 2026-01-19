@@ -35,7 +35,7 @@
                   v-if="i + 1 === quiz.correct"
                   class="text-green-600 font-bold"
                 >
-                  (tačno)
+                  (točno)
                 </span>
               </li>
             </ul>

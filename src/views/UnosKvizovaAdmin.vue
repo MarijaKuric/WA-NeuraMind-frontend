@@ -32,7 +32,7 @@
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
-            Tačan odgovor (1–4)
+            Točan odgovor (1–4)
           </label>
           <input
             v-model.number="quiz.correct"
