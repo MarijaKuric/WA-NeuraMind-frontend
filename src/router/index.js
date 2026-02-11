@@ -97,6 +97,11 @@ const routes = [
     name: 'ZajednicaKorisnik',
     component: ZajednicaKorisnik,
   },
+  {
+    path: '/kvizovi-korisnik',
+    name: 'KvizoviKorisnik',
+    component: KvizoviKorisnik,
+  }
 
 ]
 

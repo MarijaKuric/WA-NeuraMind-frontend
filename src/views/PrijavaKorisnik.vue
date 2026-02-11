@@ -76,7 +76,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -84,7 +83,7 @@ import axios from 'axios'
 
 const router = useRouter()
 const email = ref('')
-const password = ref('')
+const password = ref('') // Lokalna varijabla za input polje
 
 const isFormValid = computed(() => email.value.trim() !== '' && password.value.trim() !== '')
 
@@ -95,23 +94,32 @@ const login = async () => {
   if (!isFormValid.value) return
 
   try {
+    // PAŽNJA: Šaljemo "lozinka" jer backend tako očekuje
     const res = await axios.post('http://localhost:5000/api/korisnici/login', {
       email: email.value,
-      lozinka: password.value
+      lozinka: password.value 
     })
 
-    console.log('Prijava uspješna:', res.data)
+    const korisnik = res.data.korisnik
 
-    // Spremi korisnika u local state (po potrebi)
-    localStorage.setItem('korisnik', JSON.stringify(res.data.korisnik))
+    // Ispravno spremanje podataka u localStorage
+    // Koristimo korisnik.id jer tvoj backend vraća "id: korisnik._id"
+    localStorage.setItem('userId', korisnik.id)
+    localStorage.setItem('ime', korisnik.ime)
+    
+    // Spremanje cijelog objekta ako zatreba kasnije
+    localStorage.setItem('korisnik', JSON.stringify(korisnik))
 
-    // Preusmjeri na PrikazLekcija.vue
+    console.log('Prijava uspješna, dobrodošao ' + korisnik.ime)
+
+    // Preusmjeravanje
     router.push('/prikaz-lekcija')
+    
   } catch (err) {
-    alert(err.response?.data?.message || 'Greška pri prijavi. Pokušajte ponovno.')
+    console.error('Greška pri prijavi:', err)
+    alert(err.response?.data?.message || 'Pogrešan email ili lozinka.')
   }
 }
 </script>
-
 <style scoped>
 </style>

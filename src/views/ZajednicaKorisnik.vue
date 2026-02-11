@@ -3,40 +3,73 @@
     <div class="bg-white w-full max-w-4xl rounded-2xl shadow-xl p-8 flex flex-col min-h-[80vh]">
 
       <!-- LOGO -->
-      <div class="flex justify-center items-center mb-8">
+      <div class="flex justify-center mb-8">
         <h1 class="text-4xl font-bold italic text-blue-400">NEURAMind</h1>
-        <div class="ml-3 w-10 h-10 relative">
-          <div class="w-3 h-3 bg-yellow-300 rounded-full absolute top-0 left-2"></div>
-          <div class="w-3 h-3 bg-pink-300 rounded-full absolute top-2 right-0"></div>
-          <div class="w-3 h-3 bg-green-300 rounded-full absolute bottom-0 right-2"></div>
-          <div class="w-3 h-3 bg-purple-300 rounded-full absolute top-5 left-0"></div>
-        </div>
       </div>
 
       <!-- NAVIGACIJA -->
       <div class="flex justify-center gap-3 mb-10 flex-wrap">
-        <button @click="goToLessons" :class="activeTab==='LEKCIJE'?activeBtn:inactiveBtn">LEKCIJE</button>
-        <button @click="goToKvizovi" :class="activeTab==='KVIZOVI'?activeBtn:inactiveBtn">KVIZOVI</button>
-        <button @click="goToStatistika" :class="activeTab==='STATISTIKA'?activeBtn:inactiveBtn">STATISTIKA</button>
-        <button @click="goToZajednica" :class="activeTab==='ZAJEDNICA'?activeBtn:inactiveBtn">ZAJEDNICA</button>
-        <button @click="goToAIChat" :class="activeTab==='AI CHAT'?activeBtn:inactiveBtn">AI CHAT</button>
+        <button @click="goToLessons" :class="inactiveBtn">LEKCIJE</button>
+        <button @click="goToKvizovi" :class="inactiveBtn">KVIZOVI</button>
+        <button @click="goToStatistika" :class="inactiveBtn">STATISTIKA</button>
+        <button class="bg-blue-500 text-white px-5 py-2 rounded-full font-bold">ZAJEDNICA</button>
+        <button @click="goToAIChat" :class="inactiveBtn">AI CHAT</button>
       </div>
 
-      <!-- SADRŽAJ -->
-      <div class="flex-1 flex items-center justify-center text-gray-700 text-lg">
-        Ovdje ide sadržaj ZAJEDNICE.
+      <!-- NOVA OBJAVA -->
+      <div class="mb-8">
+        <textarea
+          v-model="newPost"
+          placeholder="Postavi pitanje ili podijeli razmišljanje..."
+          class="w-full border rounded-xl p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+        ></textarea>
+
+        <button
+          @click="createPost"
+          class="mt-3 bg-linear-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-xl font-bold hover:scale-105 transition"
+        >
+          Objavi
+        </button>
       </div>
 
-      <!-- ODJAVA -->
+      <!-- OBJAVE -->
+      <div class="space-y-6 overflow-y-auto">
+
+        <div
+          v-for="post in posts"
+          :key="post.id"
+          class="bg-linear-to-br from-gray-50 to-blue-50 p-5 rounded-xl shadow hover:shadow-lg transition"
+        >
+          <div class="flex justify-between mb-2">
+            <div>
+              <h4 class="font-bold text-blue-600">{{ post.ime }}</h4>
+              <p class="text-xs text-gray-500">{{ post.role }}</p>
+            </div>
+            <span class="text-sm text-gray-500">
+              {{ post.date }}
+            </span>
+          </div>
+
+          <p class="mb-4 text-gray-700">{{ post.text }}</p>
+
+          <div class="flex gap-6 items-center">
+            <button
+              @click="likePost(post.id)"
+              class="text-pink-500 font-bold hover:scale-110 transition"
+            >
+              ❤️ {{ post.likes }}
+            </button>
+
+            <span class="text-gray-400 text-sm">
+              💬 {{ post.comments }} komentara
+            </span>
+          </div>
+        </div>
+
+      </div>
+
       <div class="mt-auto flex justify-center pt-6">
-        <button @click="logout" class="flex items-center text-blue-900 font-bold hover:opacity-80 transition">
-          <span class="bg-blue-400 text-white rounded p-1 mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </span>
+        <button @click="logout" class="text-blue-900 font-bold hover:underline">
           ODJAVA
         </button>
       </div>
@@ -50,19 +83,64 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const activeTab = ref('ZAJEDNICA')
 
-const activeBtn = 'bg-blue-500 text-white px-5 py-2 rounded-full shadow-md font-bold hover:bg-blue-600 transition'
-const inactiveBtn = 'bg-pink-400 text-white px-5 py-2 rounded-full shadow-md font-bold hover:bg-blue-500 transition'
+const newPost = ref('')
 
-// Navigacija
+const posts = ref([
+  {
+    id: 1,
+    ime: 'Ana K.',
+    role: 'Učenik',
+    text: 'Može li mi netko objasniti razliku između machine learninga i deep learninga?',
+    likes: 5,
+    comments: 2,
+    date: '11.2.2026.'
+  },
+  {
+    id: 2,
+    ime: 'Marko P.',
+    role: 'Učenik',
+    text: 'Zna li netko zašto je važno imati kvalitetne podatke u AI sustavima?',
+    likes: 8,
+    comments: 4,
+    date: '10.2.2026.'
+  },
+  
+])
+
+const createPost = () => {
+  if (!newPost.value) return
+
+  posts.value.unshift({
+    id: Date.now(),
+    ime: 'Ti',
+    role: 'Učenik',
+    text: newPost.value,
+    likes: 0,
+    comments: 0,
+    date: new Date().toLocaleDateString()
+  })
+
+  newPost.value = ''
+}
+
+const likePost = (id) => {
+  const post = posts.value.find(p => p.id === id)
+  if (post) post.likes++
+}
+
+const inactiveBtn =
+  'bg-pink-400 text-white px-5 py-2 rounded-full font-bold hover:bg-blue-400 transition'
+
 const goToLessons = () => router.push({ name: 'PrikazLekcija' })
 const goToKvizovi = () => router.push({ name: 'KvizoviKorisnik' })
 const goToStatistika = () => router.push({ name: 'StatistikaKorisnik' })
-const goToZajednica = () => router.push({ name: 'ZajednicaKorisnik' })
 const goToAIChat = () => router.push({ name: 'AIChat' })
-
-// Logout
 const logout = () => router.push('/')
 </script>
-<style scoped></style>
+
+<style scoped>
+textarea {
+  min-height: 100px;
+}
+</style>
